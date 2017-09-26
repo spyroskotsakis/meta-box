@@ -111,6 +111,14 @@ select.error {
 	background: #ffebe8 !important;
 }
 
+/* Custom Meta Box Areas */
+#form_top-sortables,
+#before_permalink-sortables,
+#after_title-sortables,
+#after_editor-sortables {
+	min-height: 1px;
+	margin-top: 10px;
+}
 
 /* =Styles for 'side' meta boxes
 -------------------------------------------------------------- */

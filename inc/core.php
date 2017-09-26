@@ -103,9 +103,6 @@ class RWMB_Core {
 		} else {
 			$context = substr($area, 10 );
 		}
-		echo "<div id='{$context}-sortables' class='meta-box-sortables'>";
 		do_meta_boxes( $post->post_type, $context, $post );
-		echo "</div>";
-
 	}
 }
