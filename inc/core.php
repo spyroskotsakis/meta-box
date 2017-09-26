@@ -20,6 +20,7 @@ class RWMB_Core {
 		add_filter( 'plugin_action_links_meta-box/meta-box.php', array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_meta_boxes' ) );
 		add_action( 'edit_page_form', array( $this, 'fix_page_template' ) );
+		$this->add_meta_box_areas();
 	}
 
 	/**
@@ -80,5 +81,31 @@ class RWMB_Core {
 	public static function get_meta_boxes() {
 		$meta_boxes = rwmb_get_registry( 'meta_box' )->all();
 		return wp_list_pluck( $meta_boxes, 'meta_box' );
+	}
+
+	public function add_meta_box_areas() {
+		$areas = array(
+			'edit_form_top',
+			'edit_form_after_title',
+			'edit_form_after_editor',
+			'edit_form_before_permalink'
+		);
+
+		foreach( $areas as $area ) {
+			add_action( $area, array( $this, 'add_meta_box_area') );
+		}
+	}
+
+	public function add_meta_box_area ( WP_Post $post ) {
+		$area = current_filter();
+		if( 'edit_form_top' === $area ) {
+			$context = 'form_top';
+		} else {
+			$context = substr($area, 10 );
+		}
+		echo "<div id='{$context}-sortables' class='meta-box-sortables'>";
+		do_meta_boxes( $post->post_type, $context, $post );
+		echo "</div>";
+
 	}
 }
