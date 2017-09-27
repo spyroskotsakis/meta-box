@@ -127,6 +127,11 @@ select.error {
 	line-height: 1.4;
 }
 
+#form_top-sortables .inside,
+#titlediv #before_permalink-sortables .inside {
+	margin: 6px 0 0;
+}
+
 /* =Styles for 'side' meta boxes
 -------------------------------------------------------------- */
 

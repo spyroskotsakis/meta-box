@@ -98,11 +98,7 @@ class RWMB_Core {
 
 	public function add_meta_box_area ( WP_Post $post ) {
 		$area = current_filter();
-		if( 'edit_form_top' === $area ) {
-			$context = 'form_top';
-		} else {
-			$context = substr($area, 10 );
-		}
-		do_meta_boxes( $post->post_type, $context, $post );
+		$context = 'edit_form_top' === $area ? 'form_top' : substr( $area, 10 );
+		do_meta_boxes( null, $context, $post );
 	}
 }
