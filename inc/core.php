@@ -20,7 +20,7 @@ class RWMB_Core {
 		add_filter( 'plugin_action_links_meta-box/meta-box.php', array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_meta_boxes' ) );
 		add_action( 'edit_page_form', array( $this, 'fix_page_template' ) );
-		$this->add_meta_box_areas();
+		$this->add_context_hooks();
 	}
 
 	/**
@@ -83,22 +83,30 @@ class RWMB_Core {
 		return wp_list_pluck( $meta_boxes, 'meta_box' );
 	}
 
-	public function add_meta_box_areas() {
-		$areas = array(
+	/**
+	 * Add hooks for extra contexts.
+	 */
+	public function add_context_hooks() {
+		$hooks = array(
 			'edit_form_top',
 			'edit_form_after_title',
 			'edit_form_after_editor',
-			'edit_form_before_permalink'
+			'edit_form_before_permalink',
 		);
 
-		foreach( $areas as $area ) {
-			add_action( $area, array( $this, 'add_meta_box_area') );
+		foreach ( $hooks as $hook ) {
+			add_action( $hook, array( $this, 'add_context' ) );
 		}
 	}
 
-	public function add_meta_box_area ( WP_Post $post ) {
-		$area = current_filter();
-		$context = 'edit_form_top' === $area ? 'form_top' : substr( $area, 10 );
+	/**
+	 * Add new meta box context.
+	 *
+	 * @param WP_Post $post The current post object.
+	 */
+	public function add_context( WP_Post $post ) {
+		$hook = current_filter();
+		$context = 'edit_form_top' === $hook ? 'form_top' : substr( $hook, 10 );
 		do_meta_boxes( null, $context, $post );
 	}
 }
