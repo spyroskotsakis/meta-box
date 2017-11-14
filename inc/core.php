@@ -101,6 +101,41 @@ class RWMB_Core {
 		}
 	}
 
+	public function do_seamless_meta_boxes( $screen, $context, $object ) {
+		$context .= '-seamless';
+		global $wp_meta_boxes;
+		static $already_sorted = false;
+
+		if ( empty( $screen ) )
+			$screen = get_current_screen();
+		elseif ( is_string( $screen ) )
+			$screen = convert_to_screen( $screen );
+
+		$page = $screen->id;
+
+		$hidden = get_hidden_meta_boxes( $screen );
+		echo '<div id="'. $context . '-area" >';
+
+		if ( isset( $wp_meta_boxes[ $page ][ $context ] ) ) {
+			foreach ( array( 'high', 'core', 'default', 'low' ) as $priority ) {
+				if ( isset( $wp_meta_boxes[ $page ][ $context ][ $priority ] ) ) {
+					foreach ( $wp_meta_boxes[ $page ][ $context ][ $priority ] as $box ) {
+						if ( false == $box || ! $box['title'] )
+							continue;
+						echo '<div id="' . $box['id'] . '" class="seamlessbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>';
+						echo '<h2 class="hndle"><span>' . $box['title'] . '</span></h2>';
+						echo '<div class="inside">';
+						call_user_func( $box['callback'], $object, $box );
+						echo '</div>';
+						echo '</div>';
+
+					}
+				}
+			}
+		}
+		echo '</div> <!-- {$context}-area end -->';
+	}
+
 	/**
 	 * Add new meta box context.
 	 *
@@ -109,6 +144,7 @@ class RWMB_Core {
 	public function add_context( WP_Post $post ) {
 		$hook = current_filter();
 		$context = 'edit_form_top' === $hook ? 'form_top' : substr( $hook, 10 );
+		$this->do_seamless_meta_boxes(  null, $context, $post );
 		do_meta_boxes( null, $context, $post );
 	}
 }
