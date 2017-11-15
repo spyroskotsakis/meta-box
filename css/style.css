@@ -1,4 +1,4 @@
-/* =Styles for 'normal' meta boxes
+/* Styles for 'normal' meta boxes
 -------------------------------------------------------------- */
 
 /* Clearfix for field */
@@ -90,11 +90,6 @@
 	left: 0;
 	top: 0;
 }
-.rwmb-clone-placeholder {
-	background: #fcf8e3;
-	border: 1px solid #faebcc;
-	display: block;
-}
 .rwmb-sort-clone {
 	padding-left: 15px;
 }
@@ -132,7 +127,7 @@ select.error {
 	margin: 6px 0 0;
 }
 
-/* =Styles for 'side' meta boxes
+/* Styles for 'side' meta boxes
 -------------------------------------------------------------- */
 
 #side-sortables .rwmb-label,
