@@ -214,6 +214,9 @@ class RW_Meta_Box {
 	 */
 	public function add_meta_boxes() {
 		foreach ( $this->post_types as $post_type ) {
+			if( $this->extrachecks() == false ) {
+				continue;
+			}
 			add_meta_box(
 				$this->id,
 				$this->title,
